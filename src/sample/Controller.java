@@ -41,25 +41,6 @@ public class Controller {
     @FXML
     private Text temp_push;
 
-    @FXML
-    void initialize() {
-        getData.setOnAction(event -> {
-            String getUserCity = city.getText().trim();
-            if (!getUserCity.equals("")) {
-                String output = getUrlContent("https://api.openweathermap.org/data/2.5/weather?q=" + getUserCity + "&appid=2891f5912041a8a06a04d15e3fb7d11b");
-                if (!output.isEmpty()) {
-                    JSONObject obj = new JSONObject(output);
-                    temp_info.setText("Температура: " + (obj.getJSONObject("main").getDouble("temp") ));
-                    temp_feels.setText("Ощущается: " + obj.getJSONObject("main").getDouble("feels_like"));
-                    temp_max.setText("Максимум: " + obj.getJSONObject("main").getDouble("temp_max"));
-                    temp_min.setText("Минимум: " + obj.getJSONObject("main").getDouble("temp_min"));
-                    temp_push.setText("Давление: " + obj.getJSONObject("main").getDouble("pressure"));
-                }
-                System.out.println(output);
-            }
-        });
-    }
-
     private static String getUrlContent(String urlAdress) {
         StringBuffer content = new StringBuffer();
         try {
@@ -78,5 +59,24 @@ public class Controller {
         }
         return content.toString();
 
+    }
+
+    @FXML
+    void initialize() {
+        getData.setOnAction(event -> {
+            String getUserCity = city.getText().trim();
+            if (!getUserCity.equals("")) {
+                String output = getUrlContent("https://api.openweathermap.org/data/2.5/weather?q=" + getUserCity + "&appid=2891f5912041a8a06a04d15e3fb7d11b");
+                if (!output.isEmpty()) {
+                    JSONObject obj = new JSONObject(output);
+                    temp_info.setText("Температура: " + obj.getJSONObject("main").getDouble("temp"));
+                    temp_feels.setText("Ощущается: " + obj.getJSONObject("main").getDouble("feels_like"));
+                    temp_max.setText("Максимум: " + obj.getJSONObject("main").getDouble("temp_max"));
+                    temp_min.setText("Минимум: " + obj.getJSONObject("main").getDouble("temp_min"));
+                    temp_push.setText("Давление: " + obj.getJSONObject("main").getDouble("pressure"));
+                }
+                System.out.println(output);
+            }
+        });
     }
 }
